@@ -1,0 +1,107 @@
+1. Utwórz nową bazę danych Imie_Nazwisko
+
+    CREATE DATABASE Imie_Nazwisko DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
+2. W bazie danych Imie_Nazwisko utwórz tabele Uczniowie i TelefonyUczniow
+
+    CREATE TABLE Uczniowie (
+        Id_Ucznia INT AUTO_INCREMENT PRIMARY KEY,
+        Nazwisko VARCHAR(40),
+        Imie VARCHAR(25),
+        Ulica VARCHAR(25)
+    );
+
+    CREATE TABLE TelefonyUczniow (
+        Id_Ucznia INT,
+        Telefon INT,
+        PRIMARY KEY(Id_Ucznia, Telefon)
+    );
+
+3. Utwórz nowe konto użytkownika o nazwie zgodnej z pierwszymi literami własnego imienia i nazwiska
+
+    CREATE USER MM@localhost IDENTIFIED BY 'haslo'
+
+4. Zmień hasło użytkownikowi MM
+
+    SET PASSWORD FOR MM@localhost = PASSWORD('lepszehaslo');
+
+5. Zmień nazwę użytkownika na M_M
+
+    RENAME USER MM@localhost TO M_M@localhost; (Działa tylko trzeba kliknąć ENTER po skończeniu linijki)
+
+6. Usuń użytkownika M_M
+
+    DROP USER M_M@localhost;
+
+7. Utwórz nowe konto użytkownika o nazwie zgodnej z własnym imieniem i nazwiskiem
+
+    CREATE USER MaciejMocarski@localhost IDENTIFIED BY 'haslo';
+
+8. Wstaw znak podkreślenia pomiędzy imieniem i nazwiskiem
+
+    RENAME USER MaciejMocarski@localhost TO Maciej_Mocarski@localhost; (Działa tylko trzeba kliknąć ENTER po skończeniu linijki)
+
+9. Zmień hasło na dziesięcioznakowe z przynajmniej jedną dużą literą, znakiem specjalnym i cyfrą
+
+    SET PASSWORD FOR Maciej_Mocarski@localhost = PASSWORD('Lep$zehasl0');
+
+10. Sprawdź uprawnienia nowego użytkownika 
+
+    SHOW GRANTS FOR Maciej_Mocarski@localhost:
+
+    "GRANT USAGE ON *.* TO `Maciej_Mocarski`@`localhost..."
+
+11. Użytkownikowi o nazwie zgodnej z własnym imieniem i nazwiskiem nadaj uprawnienie do wyszuki-
+wania danych we wszystkich tabelach bazy danych Imie_Nazwisko
+
+    GRANT SELECT ON Imie_Nazwisko.* TO Maciej_Mocarski@localhost;
+
+12. Sprawdź czy użytkownik może korzystać z tego uprawnienia
+
+    SHOW GRANTS FOR Maciej_Mocarski@localhost:
+
+    "GRANT USAGE ON *.* TO `Maciej_Mocarski`@`localhost..."
+    "GRANT SELECT ON `imie_nazwisko`.* TO `Maciej_Mocarski`@`localhost..."
+
+13. Użytkownikowi o nazwie zgodnej z własnym imieniem i nazwiskiem nadaj uprawnienie do wstawiania danych do tabeli uczniowie w bazie danych Imie_Nazwisko
+
+    GRANT INSERT ON Imie_Nazwisko.* TO Maciej_Mocarski@localhost;
+
+14. Sprawdź czy użytkownik może korzystać z tego uprawnienia
+
+    SHOW GRANTS FOR Maciej_Mocarski@localhost:
+
+    "GRANT USAGE ON *.* TO `Maciej_Mocarski`@`localhost..."
+    "GRANT SELECT, INSERT ON `imie_nazwisko`.* TO `Maciej_Mocarski`@`localhost..."
+
+15. Użytkownikowi o nazwie zgodnej z własnym imieniem i nazwiskiem nadaj uprawnienie do wstawiania danych do tabeli uczniowie w bazie danych Imie_Nazwisko
+
+    GRANT INDEX ON Imie_Nazwisko.TelefonyUczniow TO Maciej_Mocarski@localhost;
+
+16. Sprawdź czy użytkownik może korzystać z tego uprawnienia
+
+    SHOW GRANTS FOR Maciej_Mocarski@localhost:
+
+    "GRANT USAGE ON *.* TO `Maciej_Mocarski`@`localhost..."
+    "GRANT SELECT, INSERT ON `imie_nazwisko`.* TO `Maciej_Mocarski`@`localhost..."
+    "GRANT INDEX ON `imie_nazwisko`.`telefonyuczniow` TO `Maciej_Mocarski`@`localhost..."
+
+17. Użytkownikowi o nazwie zgodnej z własnym imieniem i nazwiskiem nadaj uprawnienie do tworzenianowych tabel w bazie danych Imie_Nazwisko
+
+    GRANT CREATE ON Imie_Nazwisko.* TO Maciej_Mocarski@localhost;
+
+18. Sprawdź czy użytkownik może korzystać z tego uprawnienia
+
+    SHOW GRANTS FOR Maciej_Mocarski@localhost:
+
+    "GRANT USAGE ON *.* TO `Maciej_Mocarski`@`localhost..."
+    "GRANT SELECT, INSERT, CREATE ON `imie_nazwisko`.* TO `Maciej_Mocarski`@`localhost..."
+    "GRANT INDEX ON `imie_nazwisko`.`telefonyuczniow` TO `Maciej_Mocarski`@`localhost..."
+
+19. Sprawdź uprawnienia nowego użytkownika
+
+    SHOW GRANTS FOR Maciej_Mocarski@localhost
+
+20. Zabierz uprawnienia do usuwania danych
+
+    REVOKE DELETE ON *.* FOR Maciej_Mocarski@localhost
